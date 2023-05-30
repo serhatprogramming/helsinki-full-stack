@@ -46,11 +46,15 @@ const App = () => {
 
   return (
     <div>
+      <h1>Anecdote of the day</h1>
       {anecdotes[selected].anecdote} <br /> has {anecdotes[selected].votes}{" "}
       votes
       <br />
       <button onClick={updateVotes}>vote</button>
       <button onClick={setRandomAnecdote}>next anecdote</button>
+      <h1>Anecdote with most votes</h1>
+      {[...anecdotes].sort((a, b) => b.votes - a.votes)[0].anecdote} <br />
+      has {[...anecdotes].sort((a, b) => b.votes - a.votes)[0].votes} votes
     </div>
   );
 };
