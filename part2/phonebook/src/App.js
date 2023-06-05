@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-import axios from "axios";
+import phoneService from "./services/persons";
 
 import Filter from "./components/Filter";
 import Persons from "./components/Persons";
@@ -13,28 +13,46 @@ const App = () => {
   const [filter, setFilter] = useState("");
 
   useEffect(() => {
-    axios
-      .get("http://localhost:3001/persons")
-      .then((response) => setPersons(response.data));
+    phoneService.getPersons().then((persons) => setPersons(persons));
   }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (persons.find((person) => person.name === newName)) {
-      window.alert(`${newName} is already added to phonebook`);
+      if (
+        window.confirm(
+          `${newName} is already added to phonebook, replace the old number with a new one?`
+        )
+      ) {
+        phoneService
+          .updatePerson({
+            ...persons.find((person) => person.name === newName),
+            number: newNumber,
+          })
+          .then((person) =>
+            setPersons(persons.map((p) => (p.id === person.id ? person : p)))
+          );
+      }
     } else {
-      setPersons((persons) => [
-        ...persons,
-        { name: newName, number: newNumber, id: persons.length + 1 },
-      ]);
-      setNewName("");
-      setNewNumber("");
+      phoneService
+        .addPerson({ name: newName, number: newNumber })
+        .then((person) => setPersons((persons) => [...persons, person]));
     }
+    setNewName("");
+    setNewNumber("");
   };
 
   const filterPersons = persons.filter((person) =>
     person.name.toLowerCase().includes(filter.toLowerCase())
   );
+
+  const handleDelete = (person) => {
+    if (window.confirm(`Delete ${person.name}?`)) {
+      phoneService
+        .removePerson(person)
+        .then(() => setPersons(persons.filter((p) => p.id !== person.id)));
+    }
+  };
 
   return (
     <div>
@@ -49,7 +67,7 @@ const App = () => {
         handleSubmit={handleSubmit}
       />
       <h2>Numbers</h2>
-      <Persons filterPersons={filterPersons} />
+      <Persons filterPersons={filterPersons} handleDelete={handleDelete} />
     </div>
   );
 };
