@@ -1,6 +1,24 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 
+const OneCountry = ({ country }) => {
+  return (
+    <div>
+      <h1>{country.name.common}</h1>
+      <p>
+        capital {country.capital[0]} <br />
+        area {country.area}
+      </p>
+      <ul>
+        {Object.values(country.languages).map((lang) => (
+          <li key={lang}>{lang}</li>
+        ))}
+      </ul>
+      <img src={country.flags.png} alt={country.name.common} />
+    </div>
+  );
+};
+
 const App = () => {
   const [searchCountry, setSearchCountry] = useState("");
   const [countries, setCountries] = useState(null);
@@ -32,7 +50,7 @@ const App = () => {
       find countries{" "}
       <input type="text" value={searchCountry} onChange={findCountry} />
       {foundCountries &&
-        (foundCountries.length > 0 && foundCountries.length < 10 ? (
+        (foundCountries.length > 1 && foundCountries.length <= 10 ? (
           foundCountries.map((country) => (
             <>
               <br />
@@ -49,6 +67,8 @@ const App = () => {
             <br />
             No matches found
           </>
+        ) : foundCountries.length === 1 ? (
+          <OneCountry country={foundCountries[0]} />
         ) : null)}
     </div>
   );
