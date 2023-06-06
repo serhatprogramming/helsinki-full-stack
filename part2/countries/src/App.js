@@ -2,6 +2,34 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 
 const OneCountry = ({ country }) => {
+  const [weatherData, setWeatherData] = useState(null);
+  const API_KEY = "MB9eWU03phPl0ImLsRNGEGL7LiyG9oNm";
+  useEffect(() => {
+    axios
+      .get(
+        `http://dataservice.accuweather.com/locations/v1/cities/geoposition/search?apikey=${API_KEY}&q=${country.latlng[0]},${country.latlng[1]}`
+      )
+      .then((res) => {
+        console.log(res.data.Key);
+        axios
+          .get(
+            `http://dataservice.accuweather.com/forecasts/v1/daily/1day/${res.data.Key}?apikey=${API_KEY}&details=true`
+          )
+          .then((res) => {
+            console.log(res.data.DailyForecasts[0]);
+            setWeatherData(res.data.DailyForecasts[0]);
+          })
+          .catch((err) => {
+            console.log(err); //
+            setWeatherData(null);
+          });
+      })
+      .catch((err) => {
+        console.log(err); //
+        setWeatherData(null);
+        console.log(country.latlng);
+      });
+  }, [country.latlng]);
   return (
     <div>
       <h1>{country.name.common}</h1>
@@ -15,6 +43,21 @@ const OneCountry = ({ country }) => {
         ))}
       </ul>
       <img src={country.flags.png} alt={country.name.common} />
+      <h2>Weather in {country.capital[0]}</h2>
+      {weatherData && (
+        <>
+          <p>temperature {weatherData.Temperature.Maximum.Value} Fahrenheit</p>
+          <img
+            src={`https://developer.accuweather.com/sites/default/files/${
+              Number(weatherData.Day.Icon) < 10
+                ? `0${weatherData.Day.Icon}`
+                : `${weatherData.Day.Icon}`
+            }-s.png`}
+            alt=""
+          />
+          <p>wind {weatherData.Day.Wind.Speed.Value} mph</p>
+        </>
+      )}
     </div>
   );
 };
