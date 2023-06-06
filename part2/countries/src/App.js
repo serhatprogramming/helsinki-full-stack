@@ -19,6 +19,22 @@ const OneCountry = ({ country }) => {
   );
 };
 
+const ItemCountry = ({ country }) => {
+  const [show, setShow] = useState(false);
+
+  const handleShow = () => {
+    setShow(!show);
+  };
+
+  return (
+    <>
+      {country.name.common}{" "}
+      <button onClick={handleShow}>{!show ? "show" : "hide"}</button>
+      {show && <OneCountry country={country} />}
+    </>
+  );
+};
+
 const App = () => {
   const [searchCountry, setSearchCountry] = useState("");
   const [countries, setCountries] = useState(null);
@@ -54,7 +70,7 @@ const App = () => {
           foundCountries.map((country) => (
             <>
               <br />
-              {country.name.common}
+              <ItemCountry country={country} />
             </>
           ))
         ) : foundCountries.length > 10 ? (
