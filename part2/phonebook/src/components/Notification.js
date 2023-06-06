@@ -7,6 +7,7 @@ const Notification = ({ notification }) => {
       borderRadius: "4px",
       boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
       border: "2px solid #004085",
+      marginBottom: "10px",
     },
     warning: {
       background: "#fff3cd",
@@ -15,6 +16,7 @@ const Notification = ({ notification }) => {
       borderRadius: "4px",
       boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
       border: "2px solid #856404",
+      marginBottom: "10px",
     },
     error: {
       background: "#f8d7da",
@@ -23,6 +25,7 @@ const Notification = ({ notification }) => {
       borderRadius: "4px",
       boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
       border: "2px solid #721c24",
+      marginBottom: "10px",
     },
   };
 
