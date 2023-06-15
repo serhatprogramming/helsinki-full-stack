@@ -63,6 +63,10 @@ const App = () => {
             "info"
           );
           setPersons((persons) => [...persons, person]);
+        })
+        .catch((err) => {
+          console.log("error adding", err);
+          displayNotification("Missing Field", "error");
         });
     }
     setNewName("");
