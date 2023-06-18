@@ -47,11 +47,15 @@ const App = () => {
             setPersons(persons.map((p) => (p.id === person.id ? person : p)));
           })
           .catch((err) => {
-            displayNotification(
-              `information of ${alreadyExist.name} is already removed from server`,
-              "error"
-            );
-            setPersons(persons.filter((p) => p.id !== alreadyExist.id));
+            if (err.response.data.error) {
+              displayNotification(err.response.data.error, "error");
+            } else {
+              displayNotification(
+                `information of ${alreadyExist.name} is already removed from server`,
+                "error"
+              );
+              setPersons(persons.filter((p) => p.id !== alreadyExist.id));
+            }
           });
       }
     } else {
@@ -65,8 +69,7 @@ const App = () => {
           setPersons((persons) => [...persons, person]);
         })
         .catch((err) => {
-          console.log("error adding", err);
-          displayNotification("Missing Field", "error");
+          displayNotification(err.response.data.error, "error");
         });
     }
     setNewName("");
