@@ -27,6 +27,11 @@ test("There are 6 blog instances in the database", async () => {
   expect(blogs.length).toBe(6);
 });
 
+test("id property exist in the response", async () => {
+  const response = await api.get("/api/blogs");
+  expect(response.body[0]).toHaveProperty("id");
+});
+
 afterAll(async () => {
   await mongoose.connection.close();
 });
