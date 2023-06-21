@@ -1,17 +1,16 @@
 const express = require("express");
 const app = express();
-
+const config = require("./utils/config");
 const mongoose = require("mongoose");
+const logger = require("./utils/logger");
 
-const mongoUrl =
-  "mongodb+srv://fshelsinki:fshelsinki@fshelsinki.zr3q5xl.mongodb.net/blog-list-application?retryWrites=true&w=majority";
 mongoose
-  .connect(mongoUrl)
+  .connect(config.MONGODB_URL)
   .then((result) => {
-    console.log("Database connection established");
+    logger.info("Database connection established");
   })
   .catch((err) => {
-    console.log("Error connecting to database");
+    logger.error("Error connecting to database");
   });
 
 module.exports = app;
