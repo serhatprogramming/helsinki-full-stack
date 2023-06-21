@@ -8,11 +8,7 @@ const api = supertest(app);
 
 beforeEach(async () => {
   await Blog.deleteMany({});
-  const promiseArray = testHelper.initialBlogs.map((blog) => {
-    const blogMongooseObject = new Blog(blog);
-    return blogMongooseObject.save();
-  });
-  await Promise.all(promiseArray);
+  await Blog.insertMany(testHelper.initialBlogs);
 });
 
 describe("Blog list tests", () => {
@@ -76,6 +72,30 @@ describe("Blog list tests", () => {
     await api.delete(`/api/blogs/${blogsInDb[0].id}`).expect(204);
     const currentBlogsInDb = await testHelper.blogsInDb();
     expect(blogsInDb.length).toBe(currentBlogsInDb.length + 1);
+  });
+
+  test("successfully increase the likes count", async () => {
+    const blogsInDb = await testHelper.blogsInDb();
+    const updatedBlog = await api.put(`/api/blogs/${blogsInDb[0].id}`).send({
+      likes: blogsInDb[0].likes + 1000,
+    });
+    expect(blogsInDb[0].likes).toBe(updatedBlog.body.likes - 1000);
+  });
+
+  test("invalid id results to 400 status", async () => {
+    await api.delete("/api/blogs/invalid_id").expect(400);
+    await api.put("/api/blogs/invalid_id").send({ likes: 400 }).expect(400);
+  });
+
+  test("not found results to 404 status", async () => {
+    await api
+      .delete(`/api/blogs/${await testHelper.nonExistingId()}`)
+      .expect(404);
+    await api
+      .put(`/api/blogs/${await testHelper.nonExistingId()}`)
+      .send({ likes: 30000 })
+      .expect(404);
+    await api.get(`/api/blogs/${await testHelper.nonExistingId()}`).expect(404);
   });
 });
 

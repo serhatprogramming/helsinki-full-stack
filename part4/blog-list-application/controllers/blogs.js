@@ -6,6 +6,13 @@ blogsRouter.get("/", async (request, response) => {
   response.json(blogs);
 });
 
+blogsRouter.get("/:id", async (request, response) => {
+  const blog = await Blog.findById(request.params.id);
+  blog
+    ? response.json(blog)
+    : response.status(404).json({ error: "Blog does not exist" });
+});
+
 blogsRouter.post("/", async (request, response) => {
   const { title, author, url, likes } = request.body;
   if (!title || !url) {
@@ -20,8 +27,21 @@ blogsRouter.post("/", async (request, response) => {
 });
 
 blogsRouter.delete("/:id", async (request, response) => {
-  await Blog.findByIdAndRemove(request.params.id);
-  response.status(204).end();
+  const result = await Blog.findByIdAndRemove(request.params.id);
+  result
+    ? response.status(204).end()
+    : response.status(404).json({ error: "Blog does not exist" });
+});
+
+blogsRouter.put("/:id", async (request, response) => {
+  const updatedBlog = await Blog.findByIdAndUpdate(
+    request.params.id,
+    request.body,
+    { new: true }
+  );
+  updatedBlog
+    ? response.json(updatedBlog)
+    : response.status(404).json({ error: "Blog does not exist" });
 });
 
 module.exports = blogsRouter;
