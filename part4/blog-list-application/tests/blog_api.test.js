@@ -70,6 +70,13 @@ describe("Blog list tests", () => {
       })
       .expect(400);
   });
+
+  test("successfull deletion", async () => {
+    const blogsInDb = await testHelper.blogsInDb();
+    await api.delete(`/api/blogs/${blogsInDb[0].id}`).expect(204);
+    const currentBlogsInDb = await testHelper.blogsInDb();
+    expect(blogsInDb.length).toBe(currentBlogsInDb.length + 1);
+  });
 });
 
 afterAll(async () => {
