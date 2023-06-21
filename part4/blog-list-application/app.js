@@ -8,7 +8,7 @@ const config = require("./utils/config");
 const middleware = require("./utils/middleware");
 
 mongoose
-  .connect(config.MONGODB_URL)
+  .connect(config.MONGODB_URI)
   .then((result) => {
     logger.info("Database connection established");
   })
