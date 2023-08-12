@@ -26,7 +26,7 @@ blogsRouter.post("/", async (request, response) => {
   if (!decodedToken.id) {
     return response.status(401).json({ error: "token invalid" });
   }
-  const retrievedUser = await User.findById(decodedToken.id);
+  const retrievedUser = request.user;
 
   if (!title || !url) {
     return response.status(400).json({
@@ -37,7 +37,7 @@ blogsRouter.post("/", async (request, response) => {
   const blog = new Blog({
     ...request.body,
     likes: request.body.likes || 0,
-    user: retrievedUser.id,
+    user: retrievedUser._id,
   });
   const savedBlog = await blog.save();
   retrievedUser.blogs = retrievedUser.blogs.concat(savedBlog._id);
