@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const app = require("../app");
 const supertest = require("supertest");
 const Blog = require("../models/blog");
+const User = require("../models/user");
 const testHelper = require("../utils/blog_api_test_helper");
 
 const api = supertest(app);
@@ -9,6 +10,7 @@ const api = supertest(app);
 beforeEach(async () => {
   await Blog.deleteMany({});
   await Blog.insertMany(testHelper.initialBlogs);
+  await User.deleteMany({});
 });
 
 describe("Blog list tests", () => {
@@ -31,12 +33,25 @@ describe("Blog list tests", () => {
 
   test("successfully create a blog", async () => {
     const initialBlogsInDb = await testHelper.blogsInDb();
-    const response = await api.post("/api/blogs").send({
-      title: "New Blog",
-      author: "John Blogger",
-      url: "www.blog.com",
-      likes: 333,
+    const newUser = await api.post("/api/users").send({
+      username: "user1",
+      password: "1234",
+      name: "test user",
     });
+
+    const loginRes = await api
+      .post("/api/login")
+      .send({ username: "user1", password: "1234" });
+
+    const response = await api
+      .post("/api/blogs")
+      .set("Authorization", `Bearer ${loginRes.body.token}`)
+      .send({
+        title: "New Blog",
+        author: "John Blogger",
+        url: "www.blog.com",
+        likes: 333,
+      });
     const currentBlogsInDb = await testHelper.blogsInDb();
     expect(currentBlogsInDb.length).toBe(initialBlogsInDb.length + 1);
     expect(response.body.likes).toBe(333);
@@ -44,11 +59,25 @@ describe("Blog list tests", () => {
   });
 
   test("missing `likes` property in posts default to 0", async () => {
-    const response = await api.post("/api/blogs").send({
-      title: "New Blog",
-      author: "John Blogger",
-      url: "www.blog.com",
+    const newUser = await api.post("/api/users").send({
+      username: "user1",
+      password: "1234",
+      name: "test user",
     });
+
+    const loginRes = await api
+      .post("/api/login")
+      .send({ username: "user1", password: "1234" });
+
+    const response = await api
+      .post("/api/blogs")
+      .set("Authorization", `Bearer ${loginRes.body.token}`)
+      .send({
+        title: "New Blog",
+        author: "John Blogger",
+        url: "www.blog.com",
+      });
+
     expect(response.body.likes).toBe(0);
   });
 
@@ -69,9 +98,33 @@ describe("Blog list tests", () => {
 
   test("successfull deletion", async () => {
     const blogsInDb = await testHelper.blogsInDb();
-    await api.delete(`/api/blogs/${blogsInDb[0].id}`).expect(204);
+    const newUser = await api.post("/api/users").send({
+      username: "user1",
+      password: "1234",
+      name: "test user",
+    });
+
+    const loginRes = await api
+      .post("/api/login")
+      .send({ username: "user1", password: "1234" });
+
+    const response = await api
+      .post("/api/blogs")
+      .set("Authorization", `Bearer ${loginRes.body.token}`)
+      .send({
+        title: "New Blog",
+        author: "John Blogger",
+        url: "www.blog.com",
+        likes: 333,
+      });
+    expect(blogsInDb.length).toBe((await testHelper.blogsInDb()).length - 1);
+    await api
+      .delete(`/api/blogs/${response.body.id}`)
+      .set("Authorization", `Bearer ${loginRes.body.token}`)
+      .expect(204);
     const currentBlogsInDb = await testHelper.blogsInDb();
-    expect(blogsInDb.length).toBe(currentBlogsInDb.length + 1);
+    console.log("current Blogs in DB: ", currentBlogsInDb.length);
+    expect(blogsInDb.length).toBe(currentBlogsInDb.length);
   });
 
   test("successfully increase the likes count", async () => {
