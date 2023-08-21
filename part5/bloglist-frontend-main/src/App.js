@@ -65,6 +65,7 @@ const App = () => {
     try {
       blogService.setToken(user.token);
       const blog = await blogService.create({ title, author, url });
+      blog.user = user;
       setBlogs([...blogs, blog]);
       blogFormRef.current.toggleVisibility();
       setNotificationMessage({
