@@ -93,6 +93,26 @@ const App = () => {
     );
   };
 
+  const handleDelete = async (id) => {
+    try {
+      blogService.setToken(user.token);
+      await blogService.erase(id);
+      setNotificationMessage({
+        message: `Delete successfull.`,
+        type: "info",
+      });
+      setBlogs([...blogs].filter((blog) => blog.id !== id));
+    } catch (error) {
+      setNotificationMessage({
+        message: `${error.response.data.message}`,
+        type: "error",
+      });
+    }
+    setTimeout(() => {
+      setNotificationMessage(null);
+    }, 5000);
+  };
+
   const showBlogs = () => {
     return (
       <>
@@ -107,7 +127,13 @@ const App = () => {
         {blogs
           .sort((a, b) => b.likes - a.likes)
           .map((blog) => (
-            <Blog key={blog.id} blog={blog} handleLike={handleLike} />
+            <Blog
+              key={blog.id}
+              blog={blog}
+              handleLike={handleLike}
+              username={user.username}
+              handleDelete={handleDelete}
+            />
           ))}
       </>
     );
