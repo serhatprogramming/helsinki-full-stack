@@ -12,15 +12,9 @@ const App = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  const [title, setTitle] = useState("");
-  const [author, setAuthor] = useState("");
-  const [url, setUrl] = useState("");
-
   const [user, setUser] = useState(null);
 
   const [notificationMessage, setNotificationMessage] = useState(null);
-
-  const [blogFormVisible, setBlogFormVisible] = useState(false);
 
   useEffect(() => {
     blogService.getAll().then((blogs) => setBlogs(blogs));
@@ -37,7 +31,6 @@ const App = () => {
   const handleLogout = () => {
     window.localStorage.removeItem("loggedBlogappUser");
     setUser(null);
-    setBlogFormVisible(false);
   };
 
   const handleLogin = async (event) => {
@@ -66,16 +59,12 @@ const App = () => {
     }, 5000);
   };
 
-  const handleCreateBlog = async (event) => {
-    event.preventDefault();
+  const handleCreateBlog = async ({ title, author, url }) => {
     try {
       blogService.setToken(user.token);
       const blog = await blogService.create({ title, author, url });
       setBlogs([...blogs, blog]);
-      setTitle("");
-      setAuthor("");
-      setUrl("");
-      setBlogFormVisible(false);
+
       setNotificationMessage({
         message: `a new blog ${blog.title} by ${blog.author} added`,
         type: "info",
@@ -99,15 +88,7 @@ const App = () => {
           {user.name} logged in. <button onClick={handleLogout}>logout</button>
         </p>
         <Togglable buttonLabel="create a new blog">
-          <BlogForm
-            handleCreateBlog={handleCreateBlog}
-            title={title}
-            setTitle={setTitle}
-            author={author}
-            setAuthor={setAuthor}
-            url={url}
-            setUrl={setUrl}
-          />
+          <BlogForm handleCreateBlog={handleCreateBlog} />
         </Togglable>
 
         {blogs.map((blog) => (
