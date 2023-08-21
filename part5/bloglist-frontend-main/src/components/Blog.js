@@ -1,13 +1,22 @@
 import { useState } from "react";
+import blogService from "../services/blogs";
 
 const Blog = ({ blog }) => {
   const [visible, setVisible] = useState(false);
+  const [likes, setLikes] = useState(blog.likes);
+
+  const handleLike = () => {
+    blogService.update(blog.id, {
+      likes: likes + 1,
+    });
+    setLikes(likes + 1);
+  };
 
   const showWhenVisible = () => (
     <div>
       <div>{blog.url}</div>
       <div>
-        likes {blog.likes} <button>like</button>
+        likes {likes} <button onClick={handleLike}>like</button>
       </div>
       <div>{blog.user.username}</div>
     </div>
