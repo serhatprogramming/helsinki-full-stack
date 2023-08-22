@@ -1,5 +1,6 @@
 import { useState } from "react";
 import React from "react";
+import "../styles.css";
 
 const Blog = ({ blog, handleLike, username, handleDelete }) => {
   const [visible, setVisible] = useState(false);
@@ -32,16 +33,16 @@ const Blog = ({ blog, handleLike, username, handleDelete }) => {
     );
   };
 
-  const blogStyle = {
-    paddingTop: 10,
-    paddingLeft: 2,
-    border: "solid",
-    borderWidth: 1,
-    marginBottom: 5,
-  };
+  // const blogStyle = {
+  //   paddingTop: 10,
+  //   paddingLeft: 2,
+  //   border: "solid",
+  //   borderWidth: 1,
+  //   marginBottom: 5,
+  // };
   return (
-    <div style={blogStyle}>
-      {blog.title} {blog.author}{" "}
+    <div className="blog-style">
+      {blog.title} {blog.author}
       <button onClick={() => setVisible(!visible)}>
         {visible ? "hide" : "view"}
       </button>
