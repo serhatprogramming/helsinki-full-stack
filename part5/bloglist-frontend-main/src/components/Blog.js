@@ -1,4 +1,5 @@
 import { useState } from "react";
+import React from "react";
 
 const Blog = ({ blog, handleLike, username, handleDelete }) => {
   const [visible, setVisible] = useState(false);
@@ -13,21 +14,23 @@ const Blog = ({ blog, handleLike, username, handleDelete }) => {
     }
   };
 
-  const showWhenVisible = () => (
-    <div>
-      <div>{blog.url}</div>
+  const showWhenVisible = () => {
+    return (
       <div>
-        likes {blog.likes}
-        <button onClick={addLike}>like</button>
+        <div>{blog.url}</div>
+        <div>
+          likes {blog.likes}
+          <button onClick={addLike}>like</button>
+        </div>
+        <div>{blog.user.username}</div>
+        <div>
+          {blog.user.username === username && (
+            <button onClick={deleteBlog}>delete</button>
+          )}
+        </div>
       </div>
-      <div>{blog.user.username}</div>
-      <div>
-        {blog.user.username === username && (
-          <button onClick={deleteBlog}>delete</button>
-        )}
-      </div>
-    </div>
-  );
+    );
+  };
 
   const blogStyle = {
     paddingTop: 10,

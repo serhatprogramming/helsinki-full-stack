@@ -1,3 +1,4 @@
+import React from "react";
 import { useState, useEffect, useRef } from "react";
 import Blog from "./components/Blog";
 import blogService from "./services/blogs";
@@ -98,7 +99,7 @@ const App = () => {
       blogService.setToken(user.token);
       await blogService.erase(id);
       setNotificationMessage({
-        message: `Delete successfull.`,
+        message: "Delete successfull.",
         type: "info",
       });
       setBlogs([...blogs].filter((blog) => blog.id !== id));
@@ -111,32 +112,6 @@ const App = () => {
     setTimeout(() => {
       setNotificationMessage(null);
     }, 5000);
-  };
-
-  const showBlogs = () => {
-    return (
-      <>
-        <h2>blogs</h2>
-        <p>
-          {user.name} logged in. <button onClick={handleLogout}>logout</button>
-        </p>
-        <Togglable buttonLabel="create a new blog" ref={blogFormRef}>
-          <BlogForm handleCreateBlog={handleCreateBlog} />
-        </Togglable>
-
-        {blogs
-          .sort((a, b) => b.likes - a.likes)
-          .map((blog) => (
-            <Blog
-              key={blog.id}
-              blog={blog}
-              handleLike={handleLike}
-              username={user.username}
-              handleDelete={handleDelete}
-            />
-          ))}
-      </>
-    );
   };
 
   const showLogin = () => (
@@ -163,6 +138,30 @@ const App = () => {
         </div>
         <button type="submit">login</button>
       </form>
+    </>
+  );
+
+  const showBlogs = () => (
+    <>
+      <h2>blogs</h2>
+      <p>
+        {user.name} logged in. <button onClick={handleLogout}>logout</button>
+      </p>
+      <Togglable buttonLabel="create a new blog" ref={blogFormRef}>
+        <BlogForm handleCreateBlog={handleCreateBlog} />
+      </Togglable>
+
+      {blogs
+        .sort((a, b) => b.likes - a.likes)
+        .map((blog) => (
+          <Blog
+            key={blog.id}
+            blog={blog}
+            handleLike={handleLike}
+            username={user.username}
+            handleDelete={handleDelete}
+          />
+        ))}
     </>
   );
 
