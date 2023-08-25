@@ -1,12 +1,11 @@
 import { useSelector, useDispatch } from "react-redux";
 import { handleVote } from "../reducers/anecdoteReducer";
 
-const Anecdotes = () => {
+const AnecdoteList = () => {
   const anecdotes = useSelector((state) => state);
   const dispatch = useDispatch();
 
   const vote = (id) => {
-    console.log("vote", id);
     dispatch(handleVote(id));
   };
   return (
@@ -24,4 +23,4 @@ const Anecdotes = () => {
   );
 };
 
-export default Anecdotes;
+export default AnecdoteList;
