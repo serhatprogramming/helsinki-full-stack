@@ -28,9 +28,6 @@ export const handleAddAnecdote = (anecdote) => {
 };
 
 const reducer = (state = initialState, action) => {
-  console.log("state now: ", state);
-  console.log("action type", action.type);
-  console.log("action payload", action.payload);
   switch (action.type) {
     case "VOTE": {
       const updatedAnecdotes = state.map((anecdote) =>
