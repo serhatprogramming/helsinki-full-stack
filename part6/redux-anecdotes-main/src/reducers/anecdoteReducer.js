@@ -1,3 +1,5 @@
+import { createSlice } from "@reduxjs/toolkit";
+
 const anecdotesAtStart = [
   "If it hurts, do it more often",
   "Adding manpower to a late software project makes it later!",
@@ -19,30 +21,52 @@ const asObject = (anecdote) => {
 
 const initialState = anecdotesAtStart.map(asObject);
 
-export const handleVote = (id) => {
-  return { type: "VOTE", payload: { id } };
-};
+// export const handleVote = (id) => {
+//   return { type: "VOTE", payload: { id } };
+// };
 
-export const handleAddAnecdote = (anecdote) => {
-  return { type: "ADD", payload: { anecdote: asObject(anecdote) } };
-};
+// export const handleAddAnecdote = (anecdote) => {
+//   return { type: "ADD", payload: { anecdote: asObject(anecdote) } };
+// };
 
-const reducer = (state = initialState, action) => {
-  switch (action.type) {
-    case "VOTE": {
+// const reducer = (state = initialState, action) => {
+//   switch (action.type) {
+//     case "VOTE": {
+//       const updatedAnecdotes = state.map((anecdote) =>
+//         anecdote.id !== action.payload.id
+//           ? anecdote
+//           : { ...anecdote, votes: anecdote.votes + 1 }
+//       );
+//       return updatedAnecdotes;
+//     }
+//     case "ADD": {
+//       return [...state, action.payload.anecdote];
+//     }
+//     default:
+//       return state;
+//   }
+// };
+
+// export default reducer;
+
+const anecdoteSlice = createSlice({
+  name: "anecdotes",
+  initialState,
+  reducers: {
+    handleVote(state, action) {
       const updatedAnecdotes = state.map((anecdote) =>
-        anecdote.id !== action.payload.id
+        anecdote.id !== action.payload
           ? anecdote
           : { ...anecdote, votes: anecdote.votes + 1 }
       );
       return updatedAnecdotes;
-    }
-    case "ADD": {
-      return [...state, action.payload.anecdote];
-    }
-    default:
-      return state;
-  }
-};
+    },
+    handleAddAnecdote(state, action) {
+      const anecdote = asObject(action.payload);
+      return [...state, anecdote];
+    },
+  },
+});
 
-export default reducer;
+export const { handleVote, handleAddAnecdote } = anecdoteSlice.actions;
+export default anecdoteSlice.reducer;
