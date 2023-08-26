@@ -1,34 +1,44 @@
+import { useQuery, useQueryClient, useMutation } from "react-query";
+
 import AnecdoteForm from "./components/AnecdoteForm";
 import Notification from "./components/Notification";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+
+import { useNotificationDispatch } from "./NotificationContext";
+
 import { getAnecdotes, updateAnecdote } from "./requests";
 
 const App = () => {
-  const result = useQuery({
-    queryKey: ["anecdotes"],
-    queryFn: () => getAnecdotes(),
-  });
-
   const queryClient = useQueryClient();
+  const notificationDispatch = useNotificationDispatch();
 
-  const updateAnecdoteMutation = useMutation(updateAnecdote, {
+  const voteMutation = useMutation(updateAnecdote, {
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["anecdotes"] });
+      queryClient.invalidateQueries("anecdotes");
     },
   });
 
+  const handleVote = (anecdote) => {
+    voteMutation.mutate({ ...anecdote, votes: anecdote.votes + 1 });
+    notificationDispatch({
+      type: "ADD",
+      payload: `("${anecdote.content}") is voted`,
+    });
+    setTimeout(() => {
+      notificationDispatch({ type: "CLEAN" });
+    }, 5000);
+  };
+
+  const result = useQuery("anecdotes", getAnecdotes);
+
   if (result.isLoading) {
-    return <div>loading data...</div>;
+    return <div>Loading...</div>;
   }
-  if (result.status === "error") {
-    return <div>anecdote service not available due to problems in server</div>;
+
+  if (result.isError) {
+    return <div>An error occurred {result.error.message}</div>;
   }
 
   const anecdotes = result.data;
-
-  const handleVote = (anecdote) => {
-    updateAnecdoteMutation.mutate({ ...anecdote, votes: anecdote.votes + 1 });
-  };
 
   return (
     <div>

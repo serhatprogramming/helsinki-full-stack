@@ -1,12 +1,33 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useQueryClient, useMutation } from "react-query";
 import { createAnecdote } from "../requests";
+
+import { useNotificationDispatch } from "../NotificationContext";
 
 const AnecdoteForm = () => {
   const queryClient = useQueryClient();
 
+  const notificationDispatch = useNotificationDispatch();
+
   const newAnecdoteMutation = useMutation(createAnecdote, {
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["anecdotes"] });
+    onSuccess: (newAnecdote) => {
+      const anecdotes = queryClient.getQueryData("anecdotes");
+      queryClient.setQueryData("anecdotes", anecdotes.concat(newAnecdote));
+      notificationDispatch({
+        type: "ADD",
+        payload: `new anecdote ("${newAnecdote.content}") is added`,
+      });
+      setTimeout(() => {
+        notificationDispatch({ type: "CLEAN" });
+      }, 5000);
+    },
+    onError: (error) => {
+      notificationDispatch({
+        type: "ADD",
+        payload: error.response.data.error,
+      });
+      setTimeout(() => {
+        notificationDispatch({ type: "CLEAN" });
+      }, 5000);
     },
   });
 
@@ -15,7 +36,6 @@ const AnecdoteForm = () => {
     const content = event.target.anecdote.value;
     event.target.anecdote.value = "";
     newAnecdoteMutation.mutate({ content, votes: 0 });
-    console.log("new anecdote");
   };
 
   return (
