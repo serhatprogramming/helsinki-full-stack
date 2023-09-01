@@ -6,16 +6,18 @@ import loginService from "./services/login";
 import Notification from "./components/Notification";
 import BlogForm from "./components/BlogForm";
 import Togglable from "./components/Togglable";
+import { useDispatch } from "react-redux";
+import { notify, removeNotification } from "./reducers/notificationReducer";
 
 const App = () => {
+  const dispatch = useDispatch();
+
   const [blogs, setBlogs] = useState([]);
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
   const [user, setUser] = useState(null);
-
-  const [notificationMessage, setNotificationMessage] = useState(null);
 
   const blogFormRef = useRef();
 
@@ -45,20 +47,23 @@ const App = () => {
         password,
       });
       setUser(user);
-      setNotificationMessage({
-        message: `${user.name} has successfully logged in`,
-        type: "info",
-      });
+
+      dispatch(
+        notify({
+          message: `${user.name} has successfully logged in`,
+          type: "info",
+        })
+      );
 
       window.localStorage.setItem("loggedBlogappUser", JSON.stringify(user));
       blogService.setToken(user.token);
     } catch (exception) {
-      setNotificationMessage({ message: "Wrong credentials", type: "error" });
+      dispatch(notify({ message: "Wrong credentials", type: "error" }));
     }
     setUsername("");
     setPassword("");
     setTimeout(() => {
-      setNotificationMessage(null);
+      dispatch(removeNotification());
     }, 5000);
   };
 
@@ -69,18 +74,22 @@ const App = () => {
       blog.user = user;
       setBlogs([...blogs, blog]);
       blogFormRef.current.toggleVisibility();
-      setNotificationMessage({
-        message: `a new blog ${blog.title} by ${blog.author} added`,
-        type: "info",
-      });
+      dispatch(
+        notify({
+          message: `a new blog ${blog.title} by ${blog.author} added`,
+          type: "info",
+        })
+      );
     } catch (error) {
-      setNotificationMessage({
-        message: `${error.response.data.message}`,
-        type: "error",
-      });
+      dispatch(
+        notify({
+          message: `${error.response.data.message}`,
+          type: "error",
+        })
+      );
     }
     setTimeout(() => {
-      setNotificationMessage(null);
+      dispatch(notify(null));
     }, 5000);
   };
 
@@ -98,19 +107,23 @@ const App = () => {
     try {
       blogService.setToken(user.token);
       await blogService.erase(id);
-      setNotificationMessage({
-        message: "Delete successfull.",
-        type: "info",
-      });
+      dispatch(
+        notify({
+          message: "Delete successfull.",
+          type: "info",
+        })
+      );
       setBlogs([...blogs].filter((blog) => blog.id !== id));
     } catch (error) {
-      setNotificationMessage({
-        message: `${error.response.data.message}`,
-        type: "error",
-      });
+      dispatch(
+        notify({
+          message: `${error.response.data.message}`,
+          type: "error",
+        })
+      );
     }
     setTimeout(() => {
-      setNotificationMessage(null);
+      dispatch(notify(null));
     }, 5000);
   };
 
@@ -169,9 +182,7 @@ const App = () => {
 
   return (
     <div>
-      {notificationMessage && (
-        <Notification notification={notificationMessage} />
-      )}
+      <Notification />
       {user ? showBlogs() : showLogin()}
     </div>
   );

@@ -1,4 +1,12 @@
-const Notification = ({ notification }) => {
+import { useSelector } from "react-redux";
+
+const Notification = () => {
+  const notification = useSelector((state) => state.notification);
+
+  if (!notification) {
+    return null;
+  }
+
   const notificationBoxStyle = {
     backgroundColor: notification.type === "error" ? "#f8d7da" : "#d1ecf1",
     border:
