@@ -4,4 +4,49 @@
   padding-bottom: 5px;
   border: solid 1px;
   margin-bottom: 5px;
+} /* Style the menu container */
+.menu-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #333;
+  color: white;
+  padding: 10px;
+}
+
+/* Style the menu links container */
+.menu-links {
+  display: flex;
+  gap: 20px; /* Adjust the gap as needed */
+}
+
+/* Style the menu items */
+.menu-item {
+  margin-right: 20px;
+}
+
+/* Style the links */
+.menu-link {
+  text-decoration: none;
+  color: white;
+}
+
+/* Style the logout button */
+.logout-button {
+  background-color: #ff5722;
+  border: none;
+  color: white;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+/* Style the user info */
+.user-info {
+  display: flex;
+  align-items: center;
+}
+
+/* Hover effect for links */
+.menu-link:hover {
+  text-decoration: underline;
 }

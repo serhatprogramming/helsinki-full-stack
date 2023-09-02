@@ -13,6 +13,8 @@ import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import BlogsView from "./views/BlogsView";
 import UserInfo from "./components/UserInfo";
 import Blogs from "./services/blogs";
+import "./styles.css";
+import MainMenu from "./components/MainMenu";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -34,7 +36,7 @@ const App = () => {
     <Router>
       <div>
         <Notification />
-        {user && <UserInfo />}
+        {user && <MainMenu />}
       </div>
       <Routes>
         <Route path="/users" element={<UserList />} />
