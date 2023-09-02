@@ -19,6 +19,23 @@ blogsRouter.get("/:id", async (request, response) => {
     : response.status(404).json({ error: "Blog does not exist" });
 });
 
+blogsRouter.post("/:id/comments", async (request, response) => {
+  const { id } = request.params;
+  const { comment } = request.body;
+
+  try {
+    const blog = await Blog.findById(id);
+    if (!blog) {
+      return response.status(404).json({ error: "Blog post not found" });
+    }
+    blog.comments.push(comment);
+    const updatedBlog = await blog.save();
+    response.status(201).json(updatedBlog);
+  } catch (error) {
+    response.status(500).json({ error: "Internal server error" });
+  }
+});
+
 blogsRouter.post("/", async (request, response) => {
   const { title, author, url, likes } = request.body;
 
