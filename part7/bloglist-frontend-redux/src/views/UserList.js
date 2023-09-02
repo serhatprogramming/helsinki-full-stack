@@ -1,15 +1,10 @@
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
-import { fetchUsers } from "../reducers/usersReducer";
+import { useSelector } from "react-redux";
 import { getNumberOfBlogs } from "../utils/helperMethods";
+import { Link } from "react-router-dom";
 
 const UserList = () => {
   const users = useSelector((state) => state.users);
   const blogs = useSelector((state) => state.blogs);
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(fetchUsers());
-  }, []);
 
   if (users.length === 0) {
     return <></>;
@@ -20,13 +15,17 @@ const UserList = () => {
       <h2>Users</h2>
       <table>
         <thead>
-          <th></th>
-          <th>blogs created</th>
+          <tr>
+            <th></th>
+            <th>blogs created</th>
+          </tr>
         </thead>
         <tbody>
           {users.map((user) => (
             <tr key={user.id}>
-              <td>{user.username}</td>
+              <td>
+                <Link to={`/user/${user.id}`}>{user.name}</Link>
+              </td>
               <td>{getNumberOfBlogs(user.username, blogs)}</td>
             </tr>
           ))}
