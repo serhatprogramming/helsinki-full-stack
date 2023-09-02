@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import BlogForm from "../components/BlogForm";
 import Togglable from "../components/Togglable";
 import { createBlogAction } from "../reducers/blogsReducer";
+import { Link } from "react-router-dom";
+
 const BlogsView = () => {
   const dispatch = useDispatch();
   const blogs = useSelector((state) => state.blogs);
@@ -32,7 +34,7 @@ const BlogsView = () => {
         .sort((a, b) => b.likes - a.likes)
         .map((blog) => (
           <div style={blogStyle} key={blog.id}>
-            {blog.title}
+            <Link to={`/blogs/${blog.id}`}>{blog.title}</Link>
           </div>
         ))}
     </div>
