@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import { getBlogsForAUser } from "../utils/helperMethods";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 
 const User = () => {
   const id = useParams().id;
@@ -13,12 +13,14 @@ const User = () => {
   }
 
   return (
-    <div>
+    <div className="user-added-blogs-container">
       <h2>{user.username}</h2>
-      <h3>added blogs</h3>
+      <h3>Added Blogs</h3>
       <ul>
         {getBlogsForAUser(user.username, blogs).map((blog) => (
-          <li key={blog.id}>{blog.title}</li>
+          <li key={blog.id}>
+            <Link to={`/blogs/${blog.id}`}>{blog.title}</Link>
+          </li>
         ))}
       </ul>
     </div>

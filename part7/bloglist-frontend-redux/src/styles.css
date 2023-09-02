@@ -100,7 +100,7 @@ h2 {
   margin-top: 20px; /* Add margin at the top for spacing */
 }
 
-/* Login Form */
+/* STYLE FOR LOGIN FORM */
 .login-container {
   display: flex;
   justify-content: center;
@@ -444,5 +444,53 @@ label {
 
 /* Style the hover effect for links */
 .users-table a:hover {
+  text-decoration: underline;
+}
+
+/* ADDED BLOGS PER USER STYLE */
+/* Style the user's added blogs container */
+/* Style the user-added blogs container */
+.user-added-blogs-container {
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Style the user's name */
+.user-added-blogs-container h2 {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+/* Style the "Added Blogs" heading */
+.user-added-blogs-container h3 {
+  font-size: 20px;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+/* Style the blogs list */
+.user-added-blogs-container ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+/* Style the blog list items */
+.user-added-blogs-container li {
+  border-bottom: 1px solid #ddd;
+  padding: 10px 0;
+}
+
+/* Style the links within the list items */
+.user-added-blogs-container a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+/* Style the hover effect for links */
+.user-added-blogs-container a:hover {
   text-decoration: underline;
 }
