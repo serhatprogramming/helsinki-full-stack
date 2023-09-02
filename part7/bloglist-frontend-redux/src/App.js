@@ -6,11 +6,13 @@ import loginService from "./services/login";
 import Notification from "./components/Notification";
 import BlogForm from "./components/BlogForm";
 import Togglable from "./components/Togglable";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { notify, removeNotification } from "./reducers/notificationReducer";
+import { fetchBlogs, createBlogAction } from "./reducers/blogsReducer";
 
 const App = () => {
   const dispatch = useDispatch();
+  const blogsRedux = useSelector((state) => state.blogs);
 
   const [blogs, setBlogs] = useState([]);
 
@@ -23,6 +25,7 @@ const App = () => {
 
   useEffect(() => {
     blogService.getAll().then((blogs) => setBlogs(blogs));
+    dispatch(fetchBlogs());
   }, []);
 
   useEffect(() => {
@@ -166,7 +169,7 @@ const App = () => {
         <BlogForm handleCreateBlog={handleCreateBlog} />
       </Togglable>
 
-      {blogs
+      {[...blogsRedux]
         .sort((a, b) => b.likes - a.likes)
         .map((blog) => (
           <Blog
