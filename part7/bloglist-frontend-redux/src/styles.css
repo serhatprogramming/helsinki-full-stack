@@ -55,6 +55,22 @@
   background-color: #bd3200;
 }
 
+.cancel-button {
+  background-color: #ff5722;
+  font-size: 1rem;
+  border: none;
+  color: white;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 5px 0;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.cancel-button:hover {
+  background-color: #bd3200;
+}
+
 .user-info {
   display: flex;
   align-items: center;
