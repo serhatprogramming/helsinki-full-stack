@@ -11,9 +11,9 @@ const UserList = () => {
   }
 
   return (
-    <div>
+    <div className="users-container">
       <h2>Users</h2>
-      <table>
+      <table className="users-table">
         <thead>
           <tr>
             <th></th>
@@ -26,7 +26,9 @@ const UserList = () => {
               <td>
                 <Link to={`/user/${user.id}`}>{user.name}</Link>
               </td>
-              <td>{getNumberOfBlogs(user.username, blogs)}</td>
+              <td className="blogs-created">
+                {getNumberOfBlogs(user.username, blogs)}
+              </td>
             </tr>
           ))}
         </tbody>

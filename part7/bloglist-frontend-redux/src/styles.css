@@ -388,3 +388,61 @@ label {
 .add-comment-form button[type="submit"]:hover {
   background-color: #0056b3;
 }
+
+/* USER LIST VIEW STYLE */
+/* Style the users container */
+.users-container {
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Style the users title */
+.users-container h2 {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+/* Style the users table */
+.users-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+/* Style the table header row */
+.users-table thead th {
+  background-color: #f7f7f7;
+  text-align: left;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+/* Style the table body rows */
+.users-table tbody tr {
+  border-bottom: 1px solid #ddd;
+}
+
+/* Style the links within the table cells */
+.users-table a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+/* Style the table data cells */
+.users-table td {
+  padding: 10px;
+  vertical-align: top;
+}
+
+/* Style the number of blogs cell */
+.users-table .blogs-created {
+  font-weight: bold;
+}
+
+/* Style the hover effect for links */
+.users-table a:hover {
+  text-decoration: underline;
+}
