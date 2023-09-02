@@ -1,6 +1,10 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
-import { likeBlogAction, deleteBlogAction } from "../reducers/blogsReducer";
+import {
+  likeBlogAction,
+  deleteBlogAction,
+  addCommentAction,
+} from "../reducers/blogsReducer";
 
 const BlogView = () => {
   const id = useParams().id;
@@ -21,6 +25,12 @@ const BlogView = () => {
   const handleDelete = async () => {
     dispatch(deleteBlogAction(id, user));
     navigate("/");
+  };
+
+  const handleComment = async (event) => {
+    event.preventDefault();
+    dispatch(addCommentAction(blog.id, event.target.comment.value));
+    event.target.comment.value = "";
   };
 
   return (
@@ -44,6 +54,10 @@ const BlogView = () => {
           <li key={index}>{comment}</li>
         ))}
       </ul>
+      <form onSubmit={handleComment}>
+        <input type="text" name="comment" />
+        <button type="submit">add comment</button>
+      </form>
     </div>
   );
 };

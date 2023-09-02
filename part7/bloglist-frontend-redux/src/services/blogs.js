@@ -26,10 +26,18 @@ const update = async (blogId, updatedBlog) => {
   return response.data;
 };
 
+const addComment = async (blogId, updatedBlog) => {
+  const response = await axios.post(
+    `${baseUrl}/${blogId}/comments`,
+    updatedBlog
+  );
+  return response.data;
+};
+
 const erase = async (blogId) => {
   const config = { headers: { Authorization: token } };
   const response = await axios.delete(`${baseUrl}/${blogId}`, config);
   return response.data;
 };
 
-export default { getAll, create, setToken, update, erase };
+export default { getAll, create, setToken, update, erase, addComment };
