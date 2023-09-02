@@ -206,3 +206,68 @@ label {
 .blog-title:hover {
   text-decoration: underline;
 }
+
+/* CREATE a BLOG FORM STYLE */
+/* Style the form container */
+/* Style the form container */
+.create-blog-form {
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Style the form title */
+.create-blog-form h2 {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+/* Style the form fields container */
+.form-fields {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Style each form field */
+.form-field {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 5px;
+}
+
+.form-label {
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.form-input {
+  flex: 1; /* Take up remaining space */
+  padding: 5px;
+  border: none;
+  font-size: 16px;
+  outline: none;
+}
+
+/* Style the create button */
+#create-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+/* Hover effect for the create button */
+#create-button:hover {
+  background-color: #0056b3;
+}
