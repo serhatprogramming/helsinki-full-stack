@@ -34,29 +34,33 @@ const BlogView = () => {
   };
 
   return (
-    <div>
+    <div className="single-blog-container">
       <h2>{blog.title}</h2>
       <a href={blog.url} target="_blank">
         {blog.url}
       </a>
-      <div>
-        {blog.likes} likes <button onClick={handleLike}>like</button>
+      <div className="likes-section">
+        {blog.likes} likes <button onClick={handleLike}>Like</button>
       </div>
-      <div>added by {blog.user.username}</div>
+      <div className="author-section">Added by {blog.user.username}</div>
       <div>
         {blog.user.username === user.username && (
-          <button onClick={handleDelete}>delete</button>
+          <button className="delete-button" onClick={handleDelete}>
+            Delete
+          </button>
         )}
       </div>
-      <h3>comments</h3>
-      <ul>
+      <h3>Comments</h3>
+      <ul className="comments-list">
         {blog.comments?.map((comment, index) => (
-          <li key={index}>{comment}</li>
+          <li key={index} className="comment-item">
+            {comment}
+          </li>
         ))}
       </ul>
-      <form onSubmit={handleComment}>
+      <form onSubmit={handleComment} className="add-comment-form">
         <input type="text" name="comment" />
-        <button type="submit">add comment</button>
+        <button type="submit">Add Comment</button>
       </form>
     </div>
   );
