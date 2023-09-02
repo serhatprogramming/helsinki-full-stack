@@ -5,27 +5,27 @@ import { notify, removeNotification } from "./notificationReducer";
 
 const initialState = null;
 
-const userSlice = createSlice({
+const loginSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    initializeUser: (state, action) => {
+    login: (state, action) => {
       return action.payload;
     },
-    removeUser: (state, action) => {
+    logout: (state, action) => {
       return null;
     },
   },
 });
 
-const { initializeUser, removeUser } = userSlice.actions;
-export default userSlice.reducer;
+const { login, logout } = loginSlice.actions;
+export default loginSlice.reducer;
 
 export const loginUser = (credentials) => {
   return async (dispatch) => {
     try {
       const user = await loginService.login(credentials);
-      dispatch(initializeUser(user));
+      dispatch(login(user));
       window.localStorage.setItem("loggedBlogappUser", JSON.stringify(user));
       blogService.setToken(user.token);
       dispatch(
@@ -46,7 +46,7 @@ export const loginUser = (credentials) => {
 export const logoutUser = () => {
   return async (dispatch) => {
     window.localStorage.removeItem("loggedBlogappUser");
-    dispatch(removeUser());
+    dispatch(logout());
   };
 };
 
@@ -55,7 +55,7 @@ export const localStorageUser = () => {
     const loggedUserJSON = window.localStorage.getItem("loggedBlogappUser");
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON);
-      dispatch(initializeUser(user));
+      dispatch(login(user));
     }
   };
 };

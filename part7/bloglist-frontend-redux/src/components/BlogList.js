@@ -8,7 +8,7 @@ import {
   likeBlogAction,
   deleteBlogAction,
 } from "../reducers/blogsReducer";
-import { logoutUser } from "../reducers/userReducer";
+import { logoutUser } from "../reducers/loginReducer";
 const BlogList = () => {
   const dispatch = useDispatch();
   const blogsRedux = useSelector((state) => state.blogs);
