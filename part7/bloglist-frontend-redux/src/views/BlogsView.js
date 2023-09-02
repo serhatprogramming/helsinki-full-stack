@@ -26,16 +26,16 @@ const BlogsView = () => {
 
   return (
     <div>
-      <Togglable buttonLabel="create a new blog" ref={blogFormRef}>
+      <Togglable buttonLabel="Create a New Blog" ref={blogFormRef}>
         <BlogForm handleCreateBlog={handleCreateBlog} />
       </Togglable>
 
       {[...blogs]
         .sort((a, b) => b.likes - a.likes)
         .map((blog) => (
-          <div style={blogStyle} key={blog.id}>
-            <Link to={`/blogs/${blog.id}`}>{blog.title}</Link>
-          </div>
+          <Link to={`/blogs/${blog.id}`} key={blog.id} className="blog-link">
+            <div className="blog-entry">{blog.title}</div>
+          </Link>
         ))}
     </div>
   );

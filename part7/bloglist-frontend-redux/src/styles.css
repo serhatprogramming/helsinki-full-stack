@@ -6,36 +6,53 @@
   margin-bottom: 5px;
 }
 
-/* Style the menu  */
+/* //////////////////////// */
+/* MENU */
+/* Style the menu container */
 .menu-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #333;
-  color: white;
+  background-color: #37597d; /* Blue background color for the menu block */
+  color: rgb(255, 255, 255);
   padding: 10px;
+  border-radius: 5px; /* Rounded edges for the menu block */
+  transition: background-color 0.2s ease-in-out; /* Smooth background color transition */
 }
 
 .menu-links {
   display: flex;
-  gap: 20px;
 }
 
 .menu-item {
-  margin-right: 20px;
+  margin-right: 3px;
+  padding: 10px;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.menu-item:hover {
+  background-color: #ff5722;
 }
 
 .menu-link {
   text-decoration: none;
-  color: white;
+  font-size: 1.2rem;
+  color: aliceblue;
 }
 
 .logout-button {
   background-color: #ff5722;
   border: none;
   color: white;
-  padding: 5px 10px;
+  padding: 5px 15px;
+  border-radius: 5px;
   cursor: pointer;
+  margin-left: 5px;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.logout-button:hover {
+  background-color: #bd3200;
 }
 
 .user-info {
@@ -43,8 +60,36 @@
   align-items: center;
 }
 
-.menu-link:hover {
-  text-decoration: underline;
+h2 {
+  font-size: 24px;
+  color: #333;
+  margin-top: 20px; /* Add margin at the top for spacing */
+}
+
+/* //////////////////////// */
+
+/* Style for the "Create a New Blog" button */
+.create-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+/* Hover effect for the button */
+.create-button:hover {
+  background-color: #0056b3;
+}
+
+/* Style for the "blog app" heading */
+h2 {
+  font-size: 24px;
+  color: #333;
+  margin-top: 20px; /* Add margin at the top for spacing */
 }
 
 /* Login Form */
@@ -76,8 +121,8 @@
 label {
   display: block;
   font-weight: bold;
-  margin-bottom: 5px; /* Add margin at the bottom for spacing */
-  color: #333; /* Add color to the labels */
+  margin-bottom: 5px;
+  color: #333;
 }
 
 .input-field {
@@ -99,4 +144,49 @@ label {
 
 .login-button:hover {
   background-color: #0056b3;
+}
+
+/* Blog list style */
+/* Style for each blog entry */
+.blog-entry {
+  background-color: #f8f8f8;
+  border: 1px solid #ddd;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 5px;
+  cursor: pointer; /* Add a pointer cursor to indicate interactivity */
+}
+
+/* Hover effect for blog entries */
+.blog-entry:hover {
+  background-color: #eaeaea; /* Change background color on hover */
+  /* You can add other hover effects here */
+}
+
+/* Style for the "create a new blog" button */
+.create-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+/* Hover effect for the button */
+.create-button:hover {
+  background-color: #0056b3;
+}
+
+.blog-title,
+.blog-link {
+  font-size: 18px;
+  text-decoration: none;
+  color: #333;
+}
+
+.blog-title:hover {
+  text-decoration: underline;
 }
