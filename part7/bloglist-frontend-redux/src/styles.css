@@ -1,3 +1,27 @@
+/* Default styles for the page */
+body {
+  margin: 10px auto;
+  padding: 0;
+  box-sizing: border-box;
+  width: 98%;
+}
+
+/* Styles for the page when viewport width is greater than 700px */
+@media screen and (min-width: 700px) {
+  body {
+    width: 70%; /* Set the page width to 70% of the viewport width */
+    margin: 10px auto;
+  }
+}
+
+/* Styles for the page when viewport width is greater than 700px */
+@media screen and (min-width: 1200px) {
+  body {
+    width: 50%; /* Set the page width to 70% of the viewport width */
+    margin: 10px auto;
+  }
+}
+
 /* //////////////////////// */
 /* MENU */
 /* Style the menu container */
@@ -101,14 +125,15 @@ h2 {
 }
 
 /* STYLE FOR LOGIN FORM */
+/* Style the login container */
 .login-container {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-color: #f0f0f0;
 }
 
+/* Style the login form */
 .login-form {
   background-color: #ffffff;
   padding: 20px;
@@ -117,29 +142,39 @@ h2 {
   text-align: center;
 }
 
+/* Style the login title */
 .login-title {
   font-size: 24px;
   margin-bottom: 20px;
 }
 
+/* Style the form group */
 .form-group {
+  display: flex;
+  flex-direction: row; /* Arrange label and input vertically */
+  align-items: center;
   margin-bottom: 15px;
-}
-
-label {
-  display: block;
-  font-weight: bold;
-  margin-bottom: 5px;
-  color: #333;
-}
-
-.input-field {
-  padding: 10px;
+  position: relative; /* Use relative positioning */
   border: 1px solid #ccc;
   border-radius: 5px;
-  font-size: 16px;
 }
 
+/* Style the label */
+label {
+  padding: 0 5px;
+  color: #333;
+  font-size: 1rem; /* Default font size */
+}
+
+/* Style the input field */
+.input-field {
+  padding: 10px;
+  border: none;
+  font-size: 16px;
+  outline: none;
+}
+
+/* Style the login button */
 .login-button {
   background-color: #007bff;
   color: white;
@@ -150,6 +185,7 @@ label {
   cursor: pointer;
 }
 
+/* Style the login button hover effect */
 .login-button:hover {
   background-color: #0056b3;
 }
